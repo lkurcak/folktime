@@ -1,4 +1,4 @@
-//! Tiny library for approximate human-friendly duration formatting.
+//! Tiny `no_std`, zero-allocation library for approximate human-friendly duration formatting.
 
 #![no_std]
 
