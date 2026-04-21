@@ -1,11 +1,11 @@
 [package]
 name = "folktime"
-description = "Tiny library for approximate formatting of time values in a human-friendly way."
-version = "0.2.1"
-edition = "2021"
-license = "MIT OR Apache-2.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Tiny library for approximate human-friendly duration formatting."
+version = "0.3.0"
+edition = "2024"
+license = "MIT OR UNLICENSE"
+keywords = ["duration", "time", "formatting", "human-readable", "no-std"]
+categories = ["date-and-time", "value-formatting", "no-std"]
 
 [lib]
 path = "src/lib.rs"
