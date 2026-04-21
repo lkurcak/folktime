@@ -6,7 +6,7 @@ pub mod duration;
 
 use duration::Duration;
 
-/// A library for formatting time-related values in a human-friendly way.
+/// Entry point for formatting time-related values.
 ///
 /// # Example
 /// ```
@@ -19,7 +19,7 @@ use duration::Duration;
 pub struct Folktime;
 
 impl Folktime {
-    /// Used for formatting [std::time::Duration] in a human-friendly way.
+    /// Format a [`core::time::Duration`] in a human-friendly way.
     ///
     /// # Example
     /// ```rust

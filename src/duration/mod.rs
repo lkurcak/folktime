@@ -17,21 +17,18 @@ const GIGA_YEAR: u64 = 1_000 * MEGA_YEAR;
 const US: u32 = 1_000;
 const MS: u32 = 1_000 * US;
 
-/// The unit of time to use as the minimum display unit.
-///
-/// When set via [`Duration::with_min_unit`], any duration below 1 of this unit
-/// will be displayed as `"0"` followed by the unit label (e.g. `"0s"`, `"0m"`).
+/// A unit of time, used with [`Duration::with_min_unit`] to set a floor
+/// on which unit the formatter may select.
 ///
 /// # Example
 /// ```
 /// use std::time::Duration;
 /// use folktime::Folktime;
-/// use folktime::duration::{Style, Unit};
+/// use folktime::duration::Unit;
 ///
-/// let d = Folktime::duration(Duration::from_nanos(500))
-///     .with_style(Style::OneUnitWhole)
+/// let d = Folktime::duration(Duration::from_millis(500))
 ///     .with_min_unit(Unit::Second);
-/// assert_eq!(format!("{}", d), "0s");
+/// assert_eq!(format!("{}", d), "0.50s");
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Unit {
@@ -50,46 +47,6 @@ pub enum Unit {
     GigaYear,
 }
 
-impl Unit {
-    /// Returns the display label for this unit.
-    pub fn label(&self) -> &'static str {
-        match self {
-            Unit::Nanosecond => "ns",
-            Unit::Microsecond => "us",
-            Unit::Millisecond => "ms",
-            Unit::Second => "s",
-            Unit::Minute => "m",
-            Unit::Hour => "h",
-            Unit::Day => "d",
-            Unit::Week => "w",
-            Unit::Month => "mo",
-            Unit::Year => "y",
-            Unit::KiloYear => "ky",
-            Unit::MegaYear => "My",
-            Unit::GigaYear => "Gy",
-        }
-    }
-
-    /// Returns true if the given duration is below 1 of this unit.
-    pub fn is_below(&self, secs: u64, ns: u32) -> bool {
-        match self {
-            Unit::Nanosecond => false,
-            Unit::Microsecond => secs == 0 && ns < US,
-            Unit::Millisecond => secs == 0 && ns < MS,
-            Unit::Second => secs < 1,
-            Unit::Minute => secs < MIN,
-            Unit::Hour => secs < HOUR,
-            Unit::Day => secs < DAY,
-            Unit::Week => secs < WEEK,
-            Unit::Month => secs < MONTH,
-            Unit::Year => secs < YEAR,
-            Unit::KiloYear => secs < KILO_YEAR,
-            Unit::MegaYear => secs < MEGA_YEAR,
-            Unit::GigaYear => secs < GIGA_YEAR,
-        }
-    }
-}
-
 /// Formatting style for [core::time::Duration].
 pub enum Style {
     /// Format the duration in the largest possible unit with a fractional part with 3 significant digits.
@@ -102,6 +59,7 @@ pub enum Style {
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitFrac);
     /// assert_eq!(format!("{}", d), "2.05m");
+    /// ```
     OneUnitFrac,
     /// Format the duration in the largest possible unit with a whole number.
     ///
@@ -129,9 +87,9 @@ pub enum Style {
 }
 
 pub struct Duration {
-    pub duration: core::time::Duration,
-    pub style: Style,
-    pub min_unit: Unit,
+    pub(crate) duration: core::time::Duration,
+    pub(crate) style: Style,
+    pub(crate) min_unit: Unit,
 }
 
 impl Duration {
