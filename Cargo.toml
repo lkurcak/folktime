@@ -3,6 +3,7 @@ name = "folktime"
 description = "Tiny no_std, zero-allocation library for approximate human-friendly duration formatting."
 version = "0.3.0"
 edition = "2024"
+rust-version = "1.85"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/lkurcak/folktime"
 keywords = ["duration", "formatting", "human-readable", "no-std", "no-alloc"]

@@ -54,6 +54,19 @@ assert_eq!(format!("{}", b), "12ms");
 assert_eq!(format!("{}", c), "12ms 56us");
 ```
 
+### Minimum unit
+
+Use `with_min_unit` to set a floor on the displayed unit:
+
+```rust
+use std::time::Duration;
+use folktime::Folktime;
+use folktime::duration::Unit;
+
+let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
+assert_eq!(format!("{}", d), "0.50s");
+```
+
 Here's a comparison of styles:
 
 | Duration   | [`Style::OneUnitFrac`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.OneUnitFrac) | [`Style::OneUnitWhole`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.OneUnitWhole) | [`Style::TwoUnitsWhole`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.TwoUnitsWhole) |

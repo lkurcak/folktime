@@ -32,18 +32,31 @@ const MS: u32 = 1_000 * US;
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Unit {
+    /// Nanoseconds (`ns`).
     Nanosecond,
+    /// Microseconds (`us`).
     Microsecond,
+    /// Milliseconds (`ms`).
     Millisecond,
+    /// Seconds (`s`).
     Second,
+    /// Minutes (`m`).
     Minute,
+    /// Hours (`h`).
     Hour,
+    /// Days (`d`).
     Day,
+    /// Weeks (`w`).
     Week,
+    /// Months (`mo`).
     Month,
+    /// Years (`y`).
     Year,
+    /// Thousand years (`ky`).
     KiloYear,
+    /// Million years (`My`).
     MegaYear,
+    /// Billion years (`Gy`).
     GigaYear,
 }
 
@@ -89,6 +102,7 @@ pub enum Style {
 }
 
 #[allow(clippy::struct_field_names)]
+#[derive(Debug, Clone, Copy)]
 pub struct Duration {
     pub(crate) duration: core::time::Duration,
     pub(crate) style: Style,
@@ -97,7 +111,7 @@ pub struct Duration {
 
 impl Duration {
     #[must_use]
-    pub const fn new(d: core::time::Duration) -> Self {
+    pub(crate) const fn new(d: core::time::Duration) -> Self {
         Self {
             duration: d,
             style: Style::OneUnitFrac,

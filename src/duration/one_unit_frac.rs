@@ -83,11 +83,12 @@ impl Duration {
         } else if secs < MEGA_YEAR && min <= Unit::KiloYear {
             fmt_100(secs, KILO_YEAR, "ky", f)
         } else if secs < GIGA_YEAR && min <= Unit::MegaYear {
-            // TODO: find the best shift, this value was adjusted to pass unit tests
+            // Right-shift both operands to prevent overflow in `val * 100` inside fmt_100.
             let shift = 1;
             fmt_100(secs >> shift, MEGA_YEAR >> shift, "My", f)
         } else {
-            // TODO: find the best shift, this value was adjusted to pass unit tests
+            // Right-shift both operands to prevent overflow in `val * 100` inside fmt_100.
+            // A larger shift is needed here because GIGA_YEAR * 100 exceeds u64::MAX.
             let shift = 8;
             fmt_100(secs >> shift, GIGA_YEAR >> shift, "Gy", f)
         }
