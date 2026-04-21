@@ -14,7 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   displayed time unit.
 - `#[must_use]` on all builder methods and constructors.
 - `Debug`, `Clone`, `Copy`, `PartialEq`, `Eq` derives on `Style`.
-- Public time-unit constants (`MINUTE`, `HOUR`, `DAY`, etc.) in `folktime::duration`.
 
 ### Changed
 
