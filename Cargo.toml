@@ -1,11 +1,13 @@
 [package]
 name = "folktime"
-description = "Tiny library for approximate formatting of time values in a human-friendly way."
-version = "0.2.1"
-edition = "2021"
+description = "Tiny no_std, zero-allocation library for approximate human-friendly duration formatting."
+version = "0.3.0"
+edition = "2024"
+rust-version = "1.85"
 license = "MIT OR Apache-2.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+repository = "https://github.com/lkurcak/folktime"
+keywords = ["duration", "formatting", "human-readable", "no-std", "no-alloc"]
+categories = ["date-and-time", "value-formatting", "no-std::no-alloc"]
 
 [lib]
 path = "src/lib.rs"

@@ -1,9 +1,9 @@
 # folktime
 
-[![Build status](https://github.com/lubomirkurcak/folktime/workflows/Test/badge.svg)](https://github.com/lubomirkurcak/folktime/actions)
+[![CI](https://github.com/lkurcak/folktime/workflows/CI/badge.svg)](https://github.com/lkurcak/folktime/actions)
 [![Crates.io](https://img.shields.io/crates/v/folktime.svg)](https://crates.io/crates/folktime)
 
-Tiny library for approximate formatting of [std::time::Duration](https://doc.rust-lang.org/stable/core/time/struct.Duration.html) in a human-friendly way.
+Tiny `no_std`, zero-allocation library for approximate formatting of [std::time::Duration](https://doc.rust-lang.org/stable/core/time/struct.Duration.html) in a human-friendly way.
 
 If you are looking for a full precision human readable format, take a look at [humantime](https://crates.io/crates/humantime).
 
@@ -52,6 +52,19 @@ let c = Folktime::duration(Duration::new(0, 12_056_999)).with_style(Style::TwoUn
 assert_eq!(format!("{}", a), "12.0ms");
 assert_eq!(format!("{}", b), "12ms");
 assert_eq!(format!("{}", c), "12ms 56us");
+```
+
+### Minimum unit
+
+Use `with_min_unit` to set a floor on the displayed unit:
+
+```rust
+use std::time::Duration;
+use folktime::Folktime;
+use folktime::duration::Unit;
+
+let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
+assert_eq!(format!("{}", d), "0.50s");
 ```
 
 Here's a comparison of styles:
