@@ -1,5 +1,5 @@
 use super::{
-    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, Unit, WEEK, YEAR,
+    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MINUTE, MONTH, MS, US, Unit, WEEK, YEAR,
 };
 
 impl Duration {
@@ -24,16 +24,16 @@ impl Duration {
                 let us = (ns % MS) / US;
                 write!(f, "{ms}ms {us}us")
             }
-        } else if secs < MIN && min <= Unit::Second {
+        } else if secs < MINUTE && min <= Unit::Second {
             let ms = ns / 1_000_000;
             write!(f, "{secs}s {ms}ms")
         } else if secs < HOUR && min <= Unit::Minute {
-            let mins = secs / MIN;
-            let secs = secs % MIN;
+            let mins = secs / MINUTE;
+            let secs = secs % MINUTE;
             write!(f, "{mins}m {secs}s")
         } else if secs < DAY && min <= Unit::Hour {
             let hours = secs / HOUR;
-            let mins = (secs % HOUR) / MIN;
+            let mins = (secs % HOUR) / MINUTE;
             write!(f, "{hours}h {mins}m")
         } else if secs < WEEK && min <= Unit::Day {
             let days = secs / DAY;

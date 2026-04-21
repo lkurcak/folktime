@@ -1,5 +1,5 @@
 use super::{
-    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, Unit, WEEK, YEAR,
+    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MINUTE, MONTH, MS, US, Unit, WEEK, YEAR,
 };
 
 macro_rules! fmt_three {
@@ -59,16 +59,16 @@ impl Duration {
                 let us = (ns % MS) / US;
                 fmt_three_u32(ms, us, "ms", f)
             }
-        } else if secs < MIN && min <= Unit::Second {
+        } else if secs < MINUTE && min <= Unit::Second {
             let ms = ns / 1_000_000;
             fmt_three_u64_u32(secs, ms, "s", f)
         } else if secs < HOUR && min <= Unit::Minute {
-            if secs < 10 * MIN {
+            if secs < 10 * MINUTE {
                 let hundredths = ns / 10_000_000;
                 let val = secs * 100 + u64::from(hundredths);
                 write!(f, "{}.{:02}m", val / 6000, (val / 60) % 100)
             } else {
-                fmt_100(secs, MIN, "m", f)
+                fmt_100(secs, MINUTE, "m", f)
             }
         } else if secs < DAY && min <= Unit::Hour {
             fmt_100(secs, HOUR, "h", f)

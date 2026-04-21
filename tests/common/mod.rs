@@ -1,3 +1,3 @@
 #![allow(unused_imports)]
 
-pub use folktime::duration::{DAY, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, WEEK, YEAR};
+pub use folktime::duration::{DAY, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MINUTE, MONTH, WEEK, YEAR};

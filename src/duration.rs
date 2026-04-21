@@ -5,9 +5,9 @@ mod two_units_whole;
 use core::fmt::Display;
 
 /// Seconds in one minute.
-pub const MIN: u64 = 60;
+pub const MINUTE: u64 = 60;
 /// Seconds in one hour.
-pub const HOUR: u64 = 60 * MIN;
+pub const HOUR: u64 = 60 * MINUTE;
 /// Seconds in one day.
 pub const DAY: u64 = 24 * HOUR;
 /// Seconds in one week.

@@ -140,12 +140,12 @@ fn h_0() {
 }
 #[test]
 fn h_1() {
-    let d = Folktime::duration(Duration::new(HOUR + MIN - 1, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(HOUR + MINUTE - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "1h");
 }
 #[test]
 fn h_2() {
-    let d = Folktime::duration(Duration::new(HOUR + MIN, 0)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(HOUR + MINUTE, 0)).with_style(STYLE);
     assert_eq!(format!("{}", d), "1h");
 }
 #[test]
