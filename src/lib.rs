@@ -1,5 +1,7 @@
 //! A library for formatting time-related values in a human-friendly way.
 
+#![no_std]
+
 pub mod duration;
 
 use duration::Duration;
@@ -61,7 +63,7 @@ impl Folktime {
     /// assert_eq!(format!("{}", b), "12ms");
     /// assert_eq!(format!("{}", c), "12ms 56us");
     /// ```
-    pub const fn duration(d: std::time::Duration) -> Duration {
-        Duration(d, duration::Style::OneUnitFrac)
+    pub const fn duration(d: core::time::Duration) -> Duration {
+        Duration::new(d)
     }
 }
