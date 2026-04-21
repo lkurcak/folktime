@@ -4,9 +4,9 @@ use super::{
 
 impl Duration {
     pub fn fmt_two_units_whole(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-        let secs = self.field1.as_secs();
-        let ns = self.field1.subsec_nanos();
-        let min = self.field3;
+        let secs = self.duration.as_secs();
+        let ns = self.duration.subsec_nanos();
+        let min = self.min_unit;
 
         if secs < 1 && min <= Unit::Millisecond {
             if ns < US && min <= Unit::Nanosecond {

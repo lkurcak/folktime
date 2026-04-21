@@ -129,17 +129,17 @@ pub enum Style {
 }
 
 pub struct Duration {
-    pub field1: core::time::Duration,
-    pub field2: Style,
-    pub field3: Unit,
+    pub duration: core::time::Duration,
+    pub style: Style,
+    pub min_unit: Unit,
 }
 
 impl Duration {
     pub const fn new(d: core::time::Duration) -> Self {
         Self {
-            field1: d,
-            field2: Style::OneUnitFrac,
-            field3: Unit::Nanosecond,
+            duration: d,
+            style: Style::OneUnitFrac,
+            min_unit: Unit::Nanosecond,
         }
     }
 
@@ -156,17 +156,21 @@ impl Duration {
     /// ```
     pub fn with_style(self, style: Style) -> Self {
         Self {
-            field1: self.field1,
-            field2: style,
-            field3: self.field3,
+            duration: self.duration,
+            style,
+            min_unit: self.min_unit,
         }
     }
 
     /// Set the minimum unit to display.
     ///
-    /// Any duration below 1 of this unit will be displayed as `"0"` followed by
-    /// the unit label. This uses truncation (floor) consistently: for example,
-    /// 999ms with `min_unit = Second` displays as `"0s"`.
+    /// Prevents the formatter from selecting any unit smaller than the
+    /// specified one. Values below 1 of this unit are expressed in terms
+    /// of that unit rather than a smaller one:
+    ///
+    /// - `OneUnitWhole`: shows `"0"` + label (e.g. `"0s"`)
+    /// - `OneUnitFrac`: shows the fractional value (e.g. `"0.50s"`)
+    /// - `TwoUnitsWhole`: shows `"0"` + label with remainder (e.g. `"0s 500ms"`)
     ///
     /// # Example
     /// ```
@@ -175,27 +179,26 @@ impl Duration {
     /// use folktime::duration::{Style, Unit};
     ///
     /// let d = Folktime::duration(Duration::from_millis(500))
+    ///     .with_min_unit(Unit::Second);
+    /// assert_eq!(format!("{}", d), "0.50s");
+    ///
+    /// let d = Folktime::duration(Duration::from_millis(500))
     ///     .with_style(Style::OneUnitWhole)
     ///     .with_min_unit(Unit::Second);
     /// assert_eq!(format!("{}", d), "0s");
-    ///
-    /// let d = Folktime::duration(Duration::from_secs(2))
-    ///     .with_style(Style::OneUnitWhole)
-    ///     .with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{}", d), "2s");
     /// ```
     pub fn with_min_unit(self, unit: Unit) -> Self {
         Self {
-            field1: self.field1,
-            field2: self.field2,
-            field3: unit,
+            duration: self.duration,
+            style: self.style,
+            min_unit: unit,
         }
     }
 }
 
 impl Display for Duration {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-        match self.field2 {
+        match self.style {
             Style::OneUnitFrac => self.fmt_one_unit_frac(f),
             Style::OneUnitWhole => self.fmt_one_unit_whole(f),
             Style::TwoUnitsWhole => self.fmt_two_units_whole(f),
