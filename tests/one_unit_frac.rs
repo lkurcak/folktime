@@ -315,8 +315,8 @@ fn h_7() {
 }
 #[test]
 fn h_8() {
-    let d =
-        Folktime::duration(Duration::new(9 * HOUR + 59 * MINUTE + 59, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(9 * HOUR + 59 * MINUTE + 59, 999_999_999))
+        .with_style(STYLE);
     assert_eq!(format!("{}", d), "9.99h");
 }
 #[test]
@@ -326,8 +326,8 @@ fn h_9() {
 }
 #[test]
 fn h_10() {
-    let d =
-        Folktime::duration(Duration::new(10 * HOUR + 5 * MINUTE + 59, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(10 * HOUR + 5 * MINUTE + 59, 999_999_999))
+        .with_style(STYLE);
     assert_eq!(format!("{}", d), "10.0h");
 }
 #[test]
@@ -337,8 +337,8 @@ fn h_11() {
 }
 #[test]
 fn h_12() {
-    let d =
-        Folktime::duration(Duration::new(23 * HOUR + 59 * MINUTE + 59, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(23 * HOUR + 59 * MINUTE + 59, 999_999_999))
+        .with_style(STYLE);
     assert_eq!(format!("{}", d), "23.9h");
 }
 

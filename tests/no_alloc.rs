@@ -3,8 +3,8 @@ use std::alloc::{GlobalAlloc, Layout, System};
 use std::cell::Cell;
 use std::time::Duration;
 
-use folktime::duration::{Style, Unit};
 use folktime::Folktime;
+use folktime::duration::{Style, Unit};
 
 // -- Per-thread counting allocator --
 
@@ -73,34 +73,130 @@ fn assert_no_alloc(f: impl FnOnce(&mut StackBuf)) {
 fn one_unit_frac_does_not_allocate() {
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::ZERO)).unwrap());
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(1))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(999))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_micros(500))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_millis(123))).unwrap());
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_nanos(999))).unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_micros(500))).unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_millis(123))).unwrap()
+    });
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(5))).unwrap());
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(123))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(3_600))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(86_400))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(604_800))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(31_558_150))).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::new(u64::MAX, 999_999_999))).unwrap());
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_secs(3_600))).unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_secs(86_400))).unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(buf, "{}", Folktime::duration(Duration::from_secs(604_800))).unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(31_558_150))
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::new(u64::MAX, 999_999_999))
+        )
+        .unwrap()
+    });
 }
 
 #[test]
 fn one_unit_whole_does_not_allocate() {
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::ZERO).with_style(Style::OneUnitWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(42)).with_style(Style::OneUnitWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_millis(500)).with_style(Style::OneUnitWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(59)).with_style(Style::OneUnitWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(7_200)).with_style(Style::OneUnitWhole)).unwrap());
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::ZERO).with_style(Style::OneUnitWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_nanos(42)).with_style(Style::OneUnitWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_millis(500)).with_style(Style::OneUnitWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(59)).with_style(Style::OneUnitWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(7_200)).with_style(Style::OneUnitWhole)
+        )
+        .unwrap()
+    });
 }
 
 #[test]
 fn two_units_whole_does_not_allocate() {
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::ZERO).with_style(Style::TwoUnitsWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(42)).with_style(Style::TwoUnitsWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_millis(500)).with_style(Style::TwoUnitsWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole)).unwrap());
-    assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(90_061)).with_style(Style::TwoUnitsWhole)).unwrap());
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::ZERO).with_style(Style::TwoUnitsWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_nanos(42)).with_style(Style::TwoUnitsWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_millis(500)).with_style(Style::TwoUnitsWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(90_061)).with_style(Style::TwoUnitsWhole)
+        )
+        .unwrap()
+    });
 }
 
 #[test]
