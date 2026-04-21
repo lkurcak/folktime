@@ -13,7 +13,7 @@ impl Duration {
                 if ns == 0 {
                     write!(f, "0s 0ms")
                 } else {
-                    write!(f, "{}ns", ns)
+                    write!(f, "{ns}ns")
                 }
             } else if ns < MS && min <= Unit::Microsecond {
                 let us = ns / US;

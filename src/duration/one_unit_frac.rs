@@ -29,11 +29,11 @@ fn fmt_100(val: u64, div: u64, unit: &str, f: &mut core::fmt::Formatter) -> core
     let big = a / 100;
     let small = a % 100;
     if big < 10 {
-        write!(f, "{}.{:02}{}", big, small, unit)
+        write!(f, "{big}.{small:02}{unit}")
     } else if big < 100 {
         write!(f, "{}.{:01}{}", big, small / 10, unit)
     } else {
-        write!(f, "{}{}", big, unit)
+        write!(f, "{big}{unit}")
     }
 }
 
@@ -48,7 +48,7 @@ impl Duration {
                 if ns == 0 {
                     write!(f, "0.00s")
                 } else {
-                    write!(f, "{}ns", ns)
+                    write!(f, "{ns}ns")
                 }
             } else if ns < MS && min <= Unit::Microsecond {
                 let us = ns / US;
@@ -65,7 +65,7 @@ impl Duration {
         } else if secs < HOUR && min <= Unit::Minute {
             if secs < 10 * MIN {
                 let hundredths = ns / 10_000_000;
-                let val = secs * 100 + hundredths as u64;
+                let val = secs * 100 + u64::from(hundredths);
                 write!(f, "{}.{:02}m", val / 6000, (val / 60) % 100)
             } else {
                 fmt_100(secs, MIN, "m", f)

@@ -56,7 +56,7 @@ pub enum Unit {
     GigaYear,
 }
 
-/// Formatting style for [core::time::Duration].
+/// Formatting style for [`core::time::Duration`].
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Style {
     /// Format the duration in the largest possible unit with a fractional part with 3 significant digits.
@@ -97,6 +97,7 @@ pub enum Style {
     TwoUnitsWhole,
 }
 
+#[allow(clippy::struct_field_names)]
 pub struct Duration {
     pub(crate) duration: core::time::Duration,
     pub(crate) style: Style,
@@ -104,6 +105,7 @@ pub struct Duration {
 }
 
 impl Duration {
+    #[must_use]
     pub const fn new(d: core::time::Duration) -> Self {
         Self {
             duration: d,
@@ -123,6 +125,7 @@ impl Duration {
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
     /// assert_eq!(format!("{}", d), "2m 3s");
     /// ```
+    #[must_use]
     pub const fn with_style(self, style: Style) -> Self {
         Self { style, ..self }
     }
@@ -152,6 +155,7 @@ impl Duration {
     ///     .with_min_unit(Unit::Second);
     /// assert_eq!(format!("{}", d), "0s");
     /// ```
+    #[must_use]
     pub const fn with_min_unit(self, unit: Unit) -> Self {
         Self {
             min_unit: unit,

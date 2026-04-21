@@ -1,6 +1,7 @@
 //! Tiny `no_std`, zero-allocation library for approximate human-friendly duration formatting.
 
 #![no_std]
+#![warn(clippy::all, clippy::pedantic)]
 
 pub mod duration;
 
@@ -63,6 +64,7 @@ impl Folktime {
     /// assert_eq!(format!("{}", b), "12ms");
     /// assert_eq!(format!("{}", c), "12ms 56us");
     /// ```
+    #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {
         Duration::new(d)
     }
