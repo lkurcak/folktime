@@ -1,7 +1,7 @@
 //! Tiny `no_std`, zero-allocation library for approximate human-friendly duration formatting.
 
 #![no_std]
-#![warn(clippy::all, clippy::pedantic)]
+#![warn(clippy::all, clippy::pedantic, clippy::mod_module_files)]
 
 pub mod duration;
 
