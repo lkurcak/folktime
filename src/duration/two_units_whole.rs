@@ -1,9 +1,9 @@
 use super::{
-    Duration, Unit, DAY, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, WEEK, YEAR,
+    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, Unit, WEEK, YEAR,
 };
 
 impl Duration {
-    pub fn fmt_two_units_whole(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+    pub(crate) fn fmt_two_units_whole(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         let secs = self.duration.as_secs();
         let ns = self.duration.subsec_nanos();
         let min = self.min_unit;
@@ -66,4 +66,3 @@ impl Duration {
         }
     }
 }
-

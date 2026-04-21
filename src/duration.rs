@@ -1,18 +1,27 @@
-pub mod one_unit_frac;
-pub mod one_unit_whole;
-pub mod two_units_whole;
+mod one_unit_frac;
+mod one_unit_whole;
+mod two_units_whole;
 
 use core::fmt::Display;
 
-const MIN: u64 = 60;
-const HOUR: u64 = 60 * MIN;
-const DAY: u64 = 24 * HOUR;
-const WEEK: u64 = 7 * DAY;
-const MONTH: u64 = 2_629_846; // = ceil(365.256363004*24*60*60/12)
-const YEAR: u64 = 31_558_150; // = ceil(365.256363004*24*60*60)
-const KILO_YEAR: u64 = 1_000 * YEAR;
-const MEGA_YEAR: u64 = 1_000 * KILO_YEAR;
-const GIGA_YEAR: u64 = 1_000 * MEGA_YEAR;
+/// Seconds in one minute.
+pub const MIN: u64 = 60;
+/// Seconds in one hour.
+pub const HOUR: u64 = 60 * MIN;
+/// Seconds in one day.
+pub const DAY: u64 = 24 * HOUR;
+/// Seconds in one week.
+pub const WEEK: u64 = 7 * DAY;
+/// Seconds in one month (average Gregorian month).
+pub const MONTH: u64 = 2_629_846; // = ceil(365.256363004*24*60*60/12)
+/// Seconds in one year (average Gregorian year).
+pub const YEAR: u64 = 31_558_150; // = ceil(365.256363004*24*60*60)
+/// Seconds in one thousand years.
+pub const KILO_YEAR: u64 = 1_000 * YEAR;
+/// Seconds in one million years.
+pub const MEGA_YEAR: u64 = 1_000 * KILO_YEAR;
+/// Seconds in one billion years.
+pub const GIGA_YEAR: u64 = 1_000 * MEGA_YEAR;
 
 const US: u32 = 1_000;
 const MS: u32 = 1_000 * US;
@@ -48,6 +57,7 @@ pub enum Unit {
 }
 
 /// Formatting style for [core::time::Duration].
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Style {
     /// Format the duration in the largest possible unit with a fractional part with 3 significant digits.
     ///
@@ -71,6 +81,7 @@ pub enum Style {
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitWhole);
     /// assert_eq!(format!("{}", d), "2m");
+    /// ```
     OneUnitWhole,
     /// Format the duration in the two largest possible units with whole numbers.
     ///
@@ -112,12 +123,8 @@ impl Duration {
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
     /// assert_eq!(format!("{}", d), "2m 3s");
     /// ```
-    pub fn with_style(self, style: Style) -> Self {
-        Self {
-            duration: self.duration,
-            style,
-            min_unit: self.min_unit,
-        }
+    pub const fn with_style(self, style: Style) -> Self {
+        Self { style, ..self }
     }
 
     /// Set the minimum unit to display.
@@ -145,11 +152,10 @@ impl Duration {
     ///     .with_min_unit(Unit::Second);
     /// assert_eq!(format!("{}", d), "0s");
     /// ```
-    pub fn with_min_unit(self, unit: Unit) -> Self {
+    pub const fn with_min_unit(self, unit: Unit) -> Self {
         Self {
-            duration: self.duration,
-            style: self.style,
             min_unit: unit,
+            ..self
         }
     }
 }
@@ -163,4 +169,3 @@ impl Display for Duration {
         }
     }
 }
-

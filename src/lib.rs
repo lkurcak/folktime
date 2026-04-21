@@ -1,4 +1,4 @@
-//! A library for formatting time-related values in a human-friendly way.
+//! Tiny library for approximate human-friendly duration formatting.
 
 #![no_std]
 
@@ -6,7 +6,7 @@ pub mod duration;
 
 use duration::Duration;
 
-/// Entry point for formatting time-related values.
+/// Entry point for formatting values.
 ///
 /// # Example
 /// ```

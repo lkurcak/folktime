@@ -3,7 +3,7 @@ name = "folktime"
 description = "Tiny library for approximate human-friendly duration formatting."
 version = "0.3.0"
 edition = "2024"
-license = "MIT OR UNLICENSE"
+license = "MIT OR Apache-2.0"
 keywords = ["duration", "time", "formatting", "human-readable", "no-std"]
 categories = ["date-and-time", "value-formatting", "no-std"]
 

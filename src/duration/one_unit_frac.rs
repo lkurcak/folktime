@@ -1,4 +1,6 @@
-use super::{Duration, Unit, DAY, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, WEEK, YEAR};
+use super::{
+    DAY, Duration, GIGA_YEAR, HOUR, KILO_YEAR, MEGA_YEAR, MIN, MONTH, MS, US, Unit, WEEK, YEAR,
+};
 
 macro_rules! fmt_three {
     ($big:ty, $small:ty, $i:ident) => {
@@ -36,7 +38,7 @@ fn fmt_100(val: u64, div: u64, unit: &str, f: &mut core::fmt::Formatter) -> core
 }
 
 impl Duration {
-    pub fn fmt_one_unit_frac(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+    pub(crate) fn fmt_one_unit_frac(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         let secs = self.duration.as_secs();
         let ns = self.duration.subsec_nanos();
         let min = self.min_unit;
@@ -91,4 +93,3 @@ impl Duration {
         }
     }
 }
-

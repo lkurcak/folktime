@@ -1,8 +1,8 @@
 mod common;
 
 use common::*;
-use folktime::duration::Style;
 use folktime::Folktime;
+use folktime::duration::Style;
 use std::time::Duration;
 
 const STYLE: Style = Style::OneUnitWhole;
@@ -299,8 +299,8 @@ fn gy_0() {
 }
 #[test]
 fn gy_1() {
-    let d = Folktime::duration(Duration::new(GIGA_YEAR + MEGA_YEAR - 1, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(GIGA_YEAR + MEGA_YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "1Gy");
 }
 #[test]

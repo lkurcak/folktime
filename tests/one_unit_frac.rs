@@ -1,8 +1,8 @@
 mod common;
 
 use common::*;
-use folktime::duration::Style;
 use folktime::Folktime;
+use folktime::duration::Style;
 use std::time::Duration;
 
 const STYLE: Style = Style::OneUnitFrac;
@@ -326,8 +326,8 @@ fn h_9() {
 }
 #[test]
 fn h_10() {
-    let d = Folktime::duration(Duration::new(10 * HOUR + 5 * MIN + 59, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(10 * HOUR + 5 * MIN + 59, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "10.0h");
 }
 #[test]
@@ -337,8 +337,8 @@ fn h_11() {
 }
 #[test]
 fn h_12() {
-    let d = Folktime::duration(Duration::new(23 * HOUR + 59 * MIN + 59, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(23 * HOUR + 59 * MIN + 59, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "23.9h");
 }
 
@@ -513,8 +513,7 @@ fn ky_5() {
 }
 #[test]
 fn ky_6() {
-    let d =
-        Folktime::duration(Duration::new(100_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(100_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "99.9ky");
 }
 #[test]
@@ -524,8 +523,7 @@ fn ky_7() {
 }
 #[test]
 fn ky_8() {
-    let d =
-        Folktime::duration(Duration::new(1_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(1_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "999ky");
 }
 
@@ -536,8 +534,7 @@ fn my_0() {
 }
 #[test]
 fn my_1() {
-    let d =
-        Folktime::duration(Duration::new(1_010_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(1_010_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "1.00My");
 }
 #[test]
@@ -552,8 +549,7 @@ fn my_3() {
 }
 #[test]
 fn my_4() {
-    let d =
-        Folktime::duration(Duration::new(10_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
+    let d = Folktime::duration(Duration::new(10_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "9.99My");
 }
 #[test]
@@ -563,8 +559,8 @@ fn my_5() {
 }
 #[test]
 fn my_6() {
-    let d = Folktime::duration(Duration::new(100_000_000 * YEAR - 1, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(100_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "99.9My");
 }
 #[test]
@@ -574,8 +570,8 @@ fn my_7() {
 }
 #[test]
 fn my_8() {
-    let d = Folktime::duration(Duration::new(1_000_000_000 * YEAR - 1, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(1_000_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "999My");
 }
 
@@ -586,8 +582,8 @@ fn gy_0() {
 }
 #[test]
 fn gy_1() {
-    let d = Folktime::duration(Duration::new(1_010_000_000 * YEAR - 1, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(1_010_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "1.00Gy");
 }
 #[test]
@@ -602,8 +598,8 @@ fn gy_3() {
 }
 #[test]
 fn gy_4() {
-    let d = Folktime::duration(Duration::new(10_000_000_000 * YEAR - 1, 999_999_999))
-        .with_style(STYLE);
+    let d =
+        Folktime::duration(Duration::new(10_000_000_000 * YEAR - 1, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{}", d), "9.99Gy");
 }
 #[test]
