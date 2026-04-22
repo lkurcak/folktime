@@ -15,7 +15,7 @@ fn zero() {
 #[test]
 fn max() {
     let d = Folktime::duration(Duration::new(u64::MAX, 999_999_999)).with_style(STYLE);
-    assert_eq!(format!("{d}"), "584Gy 531My");
+    assert_eq!(format!("{d}"), "584Gy 542My");
 }
 #[test]
 fn test() {

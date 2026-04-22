@@ -1,8 +1,9 @@
-//! Tiny `no_std`, zero-allocation library for approximate human-friendly duration formatting.
+//! Tiny `no_std`, zero-allocation formatter for `core::time::Duration`.
 
 #![no_std]
 #![warn(clippy::all, clippy::pedantic, clippy::mod_module_files)]
 
+/// Configuration types for duration formatting.
 pub mod duration;
 
 use duration::Duration;
@@ -11,7 +12,7 @@ use duration::Duration;
 #[doc = include_str!("../README.md")]
 mod readme_doctests {}
 
-/// Entry point for formatting values.
+/// Entry point for constructing duration formatters.
 ///
 /// # Example
 /// ```
@@ -24,7 +25,7 @@ mod readme_doctests {}
 pub struct Folktime;
 
 impl Folktime {
-    /// Format a [`core::time::Duration`] in a human-friendly way.
+    /// Create a formatter wrapper around `d`.
     ///
     /// # Example
     /// ```
@@ -37,7 +38,7 @@ impl Folktime {
     ///
     /// # Precision
     ///
-    /// Formatting only shows the most significant digits:
+    /// Formatting is intentionally approximate and keeps only the most significant digits:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
@@ -54,15 +55,15 @@ impl Folktime {
     /// ```
     ///
     /// # Formatting styles
-    /// There are several styles for formatting:
+    /// Choose between the available formatting styles:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
     /// let a = Folktime::duration(Duration::new(0, 12_056_999));
-    /// let b = Folktime::duration(Duration::new(0, 12_056_999)).with_style(Style::OneUnitWhole);
-    /// let c = Folktime::duration(Duration::new(0, 12_056_999)).with_style(Style::TwoUnitsWhole);
+    /// let b = a.with_style(Style::OneUnitWhole);
+    /// let c = a.with_style(Style::TwoUnitsWhole);
     ///
     /// assert_eq!(format!("{a}"), "12.0ms");
     /// assert_eq!(format!("{b}"), "12ms");
@@ -70,14 +71,18 @@ impl Folktime {
     /// ```
     ///
     /// # Minimum unit
-    /// Use [`Duration::with_min_unit`] to set a floor on the displayed unit:
+    /// Use [`Duration::with_min_unit`] to prevent the formatter from choosing a
+    /// smaller unit:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
     /// use folktime::duration::Unit;
     ///
-    /// let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{d}"), "0.50s");
+    /// let a = Folktime::duration(Duration::from_millis(500));
+    /// let b = a.with_min_unit(Unit::Second);
+    ///
+    /// assert_eq!(format!("{a}"), "500ms");
+    /// assert_eq!(format!("{b}"), "0.50s");
     /// ```
     #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {
