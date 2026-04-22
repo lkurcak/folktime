@@ -1,7 +1,7 @@
 use core::fmt::Write;
+use core::time::Duration;
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::cell::Cell;
-use std::time::Duration;
 
 use folktime::Folktime;
 use folktime::duration::{Style, Unit};
@@ -203,6 +203,6 @@ fn two_units_whole_does_not_allocate() {
 fn with_min_unit_does_not_allocate() {
     assert_no_alloc(|buf| {
         let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
-        write!(buf, "{}", d).unwrap();
+        write!(buf, "{d}").unwrap();
     });
 }

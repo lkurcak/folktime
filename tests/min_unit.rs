@@ -1,6 +1,6 @@
+use core::time::Duration;
 use folktime::Folktime;
 use folktime::duration::{Style, Unit};
-use std::time::Duration;
 
 // --- OneUnitWhole with min_unit = Second ---
 

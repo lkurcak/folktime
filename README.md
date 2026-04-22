@@ -3,18 +3,18 @@
 [![CI](https://github.com/lkurcak/folktime/workflows/CI/badge.svg)](https://github.com/lkurcak/folktime/actions)
 [![Crates.io](https://img.shields.io/crates/v/folktime.svg)](https://crates.io/crates/folktime)
 
-Tiny `no_std`, zero-allocation library for approximate formatting of [std::time::Duration](https://doc.rust-lang.org/stable/core/time/struct.Duration.html) in a human-friendly way.
+Tiny `no_std`, zero-allocation library for approximate formatting of [Duration](https://doc.rust-lang.org/stable/core/time/struct.Duration.html) in a human-friendly way.
 
 If you are looking for a full precision human readable format, take a look at [humantime](https://crates.io/crates/humantime).
 
 ### Usage
 
 ```rust
-use std::time::Duration;
+use core::time::Duration;
 use folktime::Folktime;
 
 let a = Folktime::duration(Duration::from_secs(5));
-assert_eq!(format!("{}", a), "5.00s");
+assert_eq!(format!("{a}"), "5.00s");
 ```
 
 ### Precision
@@ -22,7 +22,7 @@ assert_eq!(format!("{}", a), "5.00s");
 Formatting only shows the most significant digits:
 
 ```rust
-use std::time::Duration;
+use core::time::Duration;
 use folktime::Folktime;
 
 let a = Folktime::duration(Duration::new(0, 123_456_789));
@@ -30,10 +30,10 @@ let b = Folktime::duration(Duration::new(1, 123_456_789));
 let c = Folktime::duration(Duration::new(12, 123_456_789));
 let d = Folktime::duration(Duration::new(123, 123_456_789));
 
-assert_eq!(format!("{}", a), "123ms");
-assert_eq!(format!("{}", b), "1.12s");
-assert_eq!(format!("{}", c), "12.1s");
-assert_eq!(format!("{}", d), "2.05m");
+assert_eq!(format!("{a}"), "123ms");
+assert_eq!(format!("{b}"), "1.12s");
+assert_eq!(format!("{c}"), "12.1s");
+assert_eq!(format!("{d}"), "2.05m");
 ```
 
 ### Formatting styles
@@ -41,7 +41,7 @@ assert_eq!(format!("{}", d), "2.05m");
 There are several styles for formatting:
 
 ```rust
-use std::time::Duration;
+use core::time::Duration;
 use folktime::Folktime;
 use folktime::duration::Style;
 
@@ -49,9 +49,9 @@ let a = Folktime::duration(Duration::new(0, 12_056_999));
 let b = Folktime::duration(Duration::new(0, 12_056_999)).with_style(Style::OneUnitWhole);
 let c = Folktime::duration(Duration::new(0, 12_056_999)).with_style(Style::TwoUnitsWhole);
 
-assert_eq!(format!("{}", a), "12.0ms");
-assert_eq!(format!("{}", b), "12ms");
-assert_eq!(format!("{}", c), "12ms 56us");
+assert_eq!(format!("{a}"), "12.0ms");
+assert_eq!(format!("{b}"), "12ms");
+assert_eq!(format!("{c}"), "12ms 56us");
 ```
 
 ### Minimum unit
@@ -59,12 +59,14 @@ assert_eq!(format!("{}", c), "12ms 56us");
 Use `with_min_unit` to set a floor on the displayed unit:
 
 ```rust
-use std::time::Duration;
+use core::time::Duration;
 use folktime::Folktime;
 use folktime::duration::Unit;
 
-let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
-assert_eq!(format!("{}", d), "0.50s");
+let a = Folktime::duration(Duration::from_millis(500));
+let b = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
+assert_eq!(format!("{a}"), "500ms");
+assert_eq!(format!("{b}"), "0.50s");
 ```
 
 Here's a comparison of styles:
@@ -80,4 +82,3 @@ Here's a comparison of styles:
 | 12345678s  | `2.04w`              | `2w`                  | `2w 0d`                |
 | 123456789s | `4.69mo`             | `4mo`                 | `4mo 21d`              |
 | max        | `584Gy`              | `584Gy`               | `584Gy 4mo`            |
-
