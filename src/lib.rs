@@ -7,11 +7,15 @@ pub mod duration;
 
 use duration::Duration;
 
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+mod readme_doctests {}
+
 /// Entry point for formatting values.
 ///
 /// # Example
 /// ```
-/// use std::time::Duration;
+/// use core::time::Duration;
 /// use folktime::Folktime;
 ///
 /// let d = Folktime::duration(Duration::from_secs(5));
@@ -24,7 +28,7 @@ impl Folktime {
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     ///
     /// let d = Folktime::duration(Duration::from_secs(5));
@@ -35,7 +39,7 @@ impl Folktime {
     ///
     /// Formatting only shows the most significant digits:
     /// ```
-    /// # use std::time::Duration;
+    /// # use core::time::Duration;
     /// # use folktime::Folktime;
     /// #
     /// let a = Folktime::duration(Duration::new(0, 123_456_789));
@@ -52,7 +56,7 @@ impl Folktime {
     /// # Formatting styles
     /// There are several styles for formatting:
     /// ```
-    /// # use std::time::Duration;
+    /// # use core::time::Duration;
     /// # use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
@@ -68,7 +72,7 @@ impl Folktime {
     /// # Minimum unit
     /// Use [`Duration::with_min_unit`] to set a floor on the displayed unit:
     /// ```
-    /// # use std::time::Duration;
+    /// # use core::time::Duration;
     /// # use folktime::Folktime;
     /// use folktime::duration::Unit;
     ///

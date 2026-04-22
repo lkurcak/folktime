@@ -22,13 +22,13 @@ const MS: u32 = 1_000 * US;
 ///
 /// # Example
 /// ```
-/// use std::time::Duration;
+/// use core::time::Duration;
 /// use folktime::Folktime;
 /// use folktime::duration::Unit;
 ///
 /// let d = Folktime::duration(Duration::from_millis(500))
 ///     .with_min_unit(Unit::Second);
-/// assert_eq!(format!("{}", d), "0.50s");
+/// assert_eq!(format!("{d}"), "0.50s");
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Unit {
@@ -67,36 +67,36 @@ pub enum Style {
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitFrac);
-    /// assert_eq!(format!("{}", d), "2.05m");
+    /// assert_eq!(format!("{d}"), "2.05m");
     /// ```
     OneUnitFrac,
     /// Format the duration in the largest possible unit with a whole number.
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitWhole);
-    /// assert_eq!(format!("{}", d), "2m");
+    /// assert_eq!(format!("{d}"), "2m");
     /// ```
     OneUnitWhole,
     /// Format the duration in the two largest possible units with whole numbers.
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
-    /// assert_eq!(format!("{}", d), "2m 3s");
+    /// assert_eq!(format!("{d}"), "2m 3s");
     /// ```
     TwoUnitsWhole,
 }
@@ -123,12 +123,12 @@ impl Duration {
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
-    /// assert_eq!(format!("{}", d), "2m 3s");
+    /// assert_eq!(format!("{d}"), "2m 3s");
     /// ```
     #[must_use]
     pub const fn with_style(self, style: Style) -> Self {
@@ -147,18 +147,18 @@ impl Duration {
     ///
     /// # Example
     /// ```
-    /// use std::time::Duration;
+    /// use core::time::Duration;
     /// use folktime::Folktime;
     /// use folktime::duration::{Style, Unit};
     ///
     /// let d = Folktime::duration(Duration::from_millis(500))
     ///     .with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{}", d), "0.50s");
+    /// assert_eq!(format!("{d}"), "0.50s");
     ///
     /// let d = Folktime::duration(Duration::from_millis(500))
     ///     .with_style(Style::OneUnitWhole)
     ///     .with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{}", d), "0s");
+    /// assert_eq!(format!("{d}"), "0s");
     /// ```
     #[must_use]
     pub const fn with_min_unit(self, unit: Unit) -> Self {
