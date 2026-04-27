@@ -72,4 +72,4 @@ assert_eq!(format!("{c}"), "0s 500ms");
 ## Notes
 
 - All styles support the full range of `core::time::Duration`.
-- Month and year-based units use fixed Julian durations (365.25 days/year).
+- Month and year-based units use Julian durations (365.25 days/year).
