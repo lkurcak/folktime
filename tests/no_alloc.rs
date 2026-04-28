@@ -80,6 +80,14 @@ fn one_unit_frac_does_not_allocate() {
         write!(buf, "{}", Folktime::duration(Duration::from_micros(500))).unwrap()
     });
     assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_micros(500)).with_micro_sign()
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
         write!(buf, "{}", Folktime::duration(Duration::from_millis(123))).unwrap()
     });
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_secs(5))).unwrap());

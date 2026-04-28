@@ -7,6 +7,7 @@ impl Duration {
         let secs = self.duration.as_secs();
         let ns = self.duration.subsec_nanos();
         let min = self.min_unit;
+        let us_label = self.microsecond_label();
 
         if secs < 1 && min <= Unit::Millisecond {
             if ns < US && min <= Unit::Nanosecond {
@@ -17,7 +18,7 @@ impl Duration {
                 }
             } else if ns < MS && min <= Unit::Microsecond {
                 let us = ns / US;
-                write!(f, "{us}us")
+                write!(f, "{us}{us_label}")
             } else {
                 let ms = ns / MS;
                 write!(f, "{ms}ms")

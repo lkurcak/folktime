@@ -69,6 +69,23 @@ assert_eq!(format!("{b}"), "0.50s");
 assert_eq!(format!("{c}"), "0s 500ms");
 ```
 
+## Unicode Microseconds
+
+Use [`Duration::with_micro_sign`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_micro_sign)
+to render microseconds with the micro sign:
+
+```rust
+use core::time::Duration;
+use folktime::Folktime;
+use folktime::duration::Style;
+
+let d = Folktime::duration(Duration::from_micros(12))
+    .with_style(Style::OneUnitWhole)
+    .with_micro_sign();
+
+assert_eq!(format!("{d}"), "12μs");
+```
+
 ## Notes
 
 - All styles support the full range of `core::time::Duration`.

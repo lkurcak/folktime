@@ -84,6 +84,21 @@ impl Folktime {
     /// assert_eq!(format!("{a}"), "500ms");
     /// assert_eq!(format!("{b}"), "0.50s");
     /// ```
+    ///
+    /// # Microsecond Label
+    /// Use [`Duration::with_micro_sign`] to render microseconds with the micro
+    /// sign:
+    /// ```
+    /// # use core::time::Duration;
+    /// # use folktime::Folktime;
+    /// use folktime::duration::Style;
+    ///
+    /// let d = Folktime::duration(Duration::from_micros(12))
+    ///     .with_style(Style::OneUnitWhole)
+    ///     .with_micro_sign();
+    ///
+    /// assert_eq!(format!("{d}"), "12μs");
+    /// ```
     #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {
         Duration::new(d)

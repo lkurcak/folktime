@@ -37,7 +37,7 @@ const MS: u32 = 1_000 * US;
 pub enum Unit {
     /// Nanoseconds (`ns`).
     Nanosecond,
-    /// Microseconds (`us`).
+    /// Microseconds (`us` by default, or `μs` with [`Duration::with_micro_sign`]).
     Microsecond,
     /// Milliseconds (`ms`).
     Millisecond,
@@ -115,6 +115,7 @@ pub struct Duration {
     pub(crate) duration: core::time::Duration,
     pub(crate) style: Style,
     pub(crate) min_unit: Unit,
+    pub(crate) micro_sign: bool,
 }
 
 impl Duration {
@@ -124,6 +125,7 @@ impl Duration {
             duration: d,
             style: Style::OneUnitFrac,
             min_unit: Unit::Nanosecond,
+            micro_sign: false,
         }
     }
 
@@ -143,6 +145,29 @@ impl Duration {
     #[must_use]
     pub const fn with_style(self, style: Style) -> Self {
         Self { style, ..self }
+    }
+
+    /// Render microseconds with the micro sign (`μs`) instead of ASCII (`us`).
+    ///
+    /// This only affects outputs that include microseconds.
+    ///
+    /// # Example
+    /// ```
+    /// use core::time::Duration;
+    /// use folktime::Folktime;
+    /// use folktime::duration::Style;
+    ///
+    /// let d = Folktime::duration(Duration::from_micros(12))
+    ///     .with_style(Style::OneUnitWhole)
+    ///     .with_micro_sign();
+    /// assert_eq!(format!("{d}"), "12μs");
+    /// ```
+    #[must_use]
+    pub const fn with_micro_sign(self) -> Self {
+        Self {
+            micro_sign: true,
+            ..self
+        }
     }
 
     /// Set the smallest unit the formatter may choose.
@@ -176,6 +201,10 @@ impl Duration {
             min_unit: unit,
             ..self
         }
+    }
+
+    pub(crate) const fn microsecond_label(&self) -> &'static str {
+        if self.micro_sign { "μs" } else { "us" }
     }
 }
 
