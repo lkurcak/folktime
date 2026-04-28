@@ -111,6 +111,14 @@ fn us_13() {
 }
 
 #[test]
+fn us_unicode() {
+    let d = Folktime::duration(Duration::new(0, 12_000))
+        .with_style(STYLE)
+        .with_micro_sign();
+    assert_eq!(format!("{d}"), "12.0μs");
+}
+
+#[test]
 fn ms_0() {
     let d = Folktime::duration(Duration::new(0, 1_000_000)).with_style(STYLE);
     assert_eq!(format!("{d}"), "1.00ms");

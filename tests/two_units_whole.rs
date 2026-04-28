@@ -61,6 +61,14 @@ fn us_3() {
 }
 
 #[test]
+fn us_unicode() {
+    let d = Folktime::duration(Duration::new(0, 12_034))
+        .with_style(STYLE)
+        .with_micro_sign();
+    assert_eq!(format!("{d}"), "12μs 34ns");
+}
+
+#[test]
 fn ms_0() {
     let d = Folktime::duration(Duration::new(0, 1_000_000)).with_style(STYLE);
     assert_eq!(format!("{d}"), "1ms 0us");
@@ -89,6 +97,14 @@ fn ms_4() {
 fn ms_5() {
     let d = Folktime::duration(Duration::new(0, 999_999_999)).with_style(STYLE);
     assert_eq!(format!("{d}"), "999ms 999us");
+}
+
+#[test]
+fn ms_unicode_remainder() {
+    let d = Folktime::duration(Duration::new(0, 1_012_000))
+        .with_style(STYLE)
+        .with_micro_sign();
+    assert_eq!(format!("{d}"), "1ms 12μs");
 }
 
 #[test]
