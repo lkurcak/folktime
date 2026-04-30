@@ -69,10 +69,10 @@ assert_eq!(format!("{b}"), "0.50s");
 assert_eq!(format!("{c}"), "0s 500ms");
 ```
 
-## Unicode Microseconds
+## Greek Mu Microseconds
 
-Use [`Duration::with_micro_sign`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_micro_sign)
-to render microseconds with the micro sign:
+Use [`Duration::with_greek_mu`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_greek_mu)
+to render microseconds with Greek small letter mu (`μs`):
 
 ```rust
 use core::time::Duration;
@@ -81,10 +81,13 @@ use folktime::duration::Style;
 
 let d = Folktime::duration(Duration::from_micros(12))
     .with_style(Style::OneUnitWhole)
-    .with_micro_sign();
+    .with_greek_mu();
 
 assert_eq!(format!("{d}"), "12μs");
 ```
+
+This uses Greek small letter mu (`U+03BC`), not the legacy MICRO SIGN
+character (`U+00B5`).
 
 ## Notes
 

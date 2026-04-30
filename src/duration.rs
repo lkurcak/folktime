@@ -37,7 +37,7 @@ const MS: u32 = 1_000 * US;
 pub enum Unit {
     /// Nanoseconds (`ns`).
     Nanosecond,
-    /// Microseconds (`us` by default, or `μs` with [`Duration::with_micro_sign`]).
+    /// Microseconds (`us` by default, or `μs` with [`Duration::with_greek_mu`]).
     Microsecond,
     /// Milliseconds (`ms`).
     Millisecond,
@@ -115,7 +115,7 @@ pub struct Duration {
     pub(crate) duration: core::time::Duration,
     pub(crate) style: Style,
     pub(crate) min_unit: Unit,
-    pub(crate) micro_sign: bool,
+    pub(crate) greek_mu: bool,
 }
 
 impl Duration {
@@ -125,7 +125,7 @@ impl Duration {
             duration: d,
             style: Style::OneUnitFrac,
             min_unit: Unit::Nanosecond,
-            micro_sign: false,
+            greek_mu: false,
         }
     }
 
@@ -147,7 +147,11 @@ impl Duration {
         Self { style, ..self }
     }
 
-    /// Render microseconds with the micro sign (`μs`) instead of ASCII (`us`).
+    /// Render microseconds with Greek small letter mu (`μs`) instead of ASCII
+    /// `us`.
+    ///
+    /// The rendered prefix uses Greek small letter mu (`U+03BC`), not the
+    /// legacy MICRO SIGN character (`U+00B5`).
     ///
     /// This only affects outputs that include microseconds.
     ///
@@ -159,13 +163,13 @@ impl Duration {
     ///
     /// let d = Folktime::duration(Duration::from_micros(12))
     ///     .with_style(Style::OneUnitWhole)
-    ///     .with_micro_sign();
+    ///     .with_greek_mu();
     /// assert_eq!(format!("{d}"), "12μs");
     /// ```
     #[must_use]
-    pub const fn with_micro_sign(self) -> Self {
+    pub const fn with_greek_mu(self) -> Self {
         Self {
-            micro_sign: true,
+            greek_mu: true,
             ..self
         }
     }
@@ -204,7 +208,7 @@ impl Duration {
     }
 
     pub(crate) const fn microsecond_label(&self) -> &'static str {
-        if self.micro_sign { "μs" } else { "us" }
+        if self.greek_mu { "μs" } else { "us" }
     }
 }
 
