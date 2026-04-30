@@ -83,7 +83,7 @@ fn one_unit_frac_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_micros(500)).with_micro_sign()
+            Folktime::duration(Duration::from_micros(500)).with_greek_mu()
         )
         .unwrap()
     });

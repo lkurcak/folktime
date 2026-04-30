@@ -64,8 +64,10 @@ fn us_3() {
 fn us_unicode() {
     let d = Folktime::duration(Duration::new(0, 12_000))
         .with_style(STYLE)
-        .with_micro_sign();
-    assert_eq!(format!("{d}"), "12μs");
+        .with_greek_mu();
+    let rendered = format!("{d}");
+    assert_eq!(rendered, "12\u{03bc}s");
+    assert!(!rendered.contains('\u{00b5}'));
 }
 
 #[test]

@@ -86,8 +86,8 @@ impl Folktime {
     /// ```
     ///
     /// # Microsecond Label
-    /// Use [`Duration::with_micro_sign`] to render microseconds with the micro
-    /// sign:
+    /// Use [`Duration::with_greek_mu`] to render microseconds with Greek small
+    /// letter mu (`μs`):
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
@@ -95,9 +95,10 @@ impl Folktime {
     ///
     /// let d = Folktime::duration(Duration::from_micros(12))
     ///     .with_style(Style::OneUnitWhole)
-    ///     .with_micro_sign();
+    ///     .with_greek_mu();
     ///
     /// assert_eq!(format!("{d}"), "12μs");
+    /// // Uses Greek small letter mu (U+03BC), not MICRO SIGN (U+00B5).
     /// ```
     #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {

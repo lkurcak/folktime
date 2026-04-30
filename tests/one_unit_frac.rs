@@ -114,7 +114,7 @@ fn us_13() {
 fn us_unicode() {
     let d = Folktime::duration(Duration::new(0, 12_000))
         .with_style(STYLE)
-        .with_micro_sign();
+        .with_greek_mu();
     assert_eq!(format!("{d}"), "12.0μs");
 }
 
