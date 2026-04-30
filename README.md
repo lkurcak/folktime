@@ -86,9 +86,6 @@ let d = Folktime::duration(Duration::from_micros(12))
 assert_eq!(format!("{d}"), "12μs");
 ```
 
-This uses Greek small letter mu (`U+03BC`), not the legacy MICRO SIGN
-character (`U+00B5`).
-
 ## Notes
 
 - All styles support the full range of `core::time::Duration`.
