@@ -174,15 +174,11 @@ impl Duration {
         }
     }
 
-    /// Set the smallest primary unit the formatter may choose.
+    /// Set the minimum primary unit used to display the duration.
     ///
-    /// Prevents the formatter from switching to a smaller primary unit. Values
-    /// below `1` of this unit are still expressed in terms of that unit rather
-    /// than using a smaller primary unit:
-    ///
-    /// - `OneUnitWhole`: shows `"0"` + label (e.g. `"0s"`)
-    /// - `OneUnitFrac`: shows the fractional value (e.g. `"0.50s"`)
-    /// - `TwoUnitsWhole`: shows `"0"` + label with a smaller remainder (e.g. `"0s 500ms"`)
+    /// This is useful when small durations should still be displayed in a
+    /// larger unit. For example, `500ms` can be displayed in seconds instead of
+    /// milliseconds.
     ///
     /// # Example
     /// ```
@@ -198,6 +194,11 @@ impl Duration {
     ///     .with_style(Style::OneUnitWhole)
     ///     .with_min_unit(Unit::Second);
     /// assert_eq!(format!("{d}"), "0s");
+    ///
+    /// let d = Folktime::duration(Duration::from_millis(500))
+    ///     .with_style(Style::TwoUnitsWhole)
+    ///     .with_min_unit(Unit::Second);
+    /// assert_eq!(format!("{d}"), "0s 500ms");
     /// ```
     #[must_use]
     pub const fn with_min_unit(self, unit: Unit) -> Self {
