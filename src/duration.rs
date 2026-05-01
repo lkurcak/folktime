@@ -19,7 +19,7 @@ const US: u32 = 1_000;
 const MS: u32 = 1_000 * US;
 
 /// Units used with [`Duration::with_min_unit`] to keep the formatter from
-/// choosing anything smaller.
+/// choosing anything smaller as its primary unit.
 ///
 /// # Example
 /// ```
@@ -174,15 +174,15 @@ impl Duration {
         }
     }
 
-    /// Set the smallest unit the formatter may choose.
+    /// Set the smallest primary unit the formatter may choose.
     ///
-    /// Prevents the formatter from switching to a smaller unit. Values below
-    /// `1` of this unit are still expressed in terms of that unit rather than a
-    /// smaller one:
+    /// Prevents the formatter from switching to a smaller primary unit. Values
+    /// below `1` of this unit are still expressed in terms of that unit rather
+    /// than using a smaller primary unit:
     ///
     /// - `OneUnitWhole`: shows `"0"` + label (e.g. `"0s"`)
     /// - `OneUnitFrac`: shows the fractional value (e.g. `"0.50s"`)
-    /// - `TwoUnitsWhole`: shows `"0"` + label with remainder (e.g. `"0s 500ms"`)
+    /// - `TwoUnitsWhole`: shows `"0"` + label with a smaller remainder (e.g. `"0s 500ms"`)
     ///
     /// # Example
     /// ```

@@ -53,7 +53,7 @@ Here's a comparison of styles:
 
 ## Minimum Unit
 
-Use [`Duration::with_min_unit`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_min_unit) to set a floor on the displayed unit:
+Use [`Duration::with_min_unit`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_min_unit) to set the minimum primary unit:
 
 ```rust
 use core::time::Duration;
@@ -90,3 +90,4 @@ assert_eq!(format!("{d}"), "12μs");
 
 - All styles support the full range of `core::time::Duration`.
 - Month and year-based units use Julian durations (365.25 days/year).
+- Values are truncated toward zero, not rounded.

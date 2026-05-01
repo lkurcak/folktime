@@ -38,7 +38,8 @@ impl Folktime {
     ///
     /// # Precision
     ///
-    /// Formatting is intentionally approximate and keeps only the most significant digits:
+    /// Formatting is intentionally approximate, keeps only the most significant
+    /// digits, and truncates rather than rounds:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
