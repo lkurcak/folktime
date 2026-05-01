@@ -62,7 +62,7 @@ use folktime::duration::{Style, Unit};
 
 let a = Folktime::duration(Duration::from_millis(500));
 let b = a.with_min_unit(Unit::Second);
-let c = a.with_style(Style::TwoUnitsWhole).with_min_unit(Unit::Second);
+let c = b.with_style(Style::TwoUnitsWhole);
 
 assert_eq!(format!("{a}"), "500ms");
 assert_eq!(format!("{b}"), "0.50s");
@@ -110,3 +110,7 @@ assert_eq!(format!("{d}"), "12μs");
 - All styles support the full range of `core::time::Duration`.
 - Month and year-based units use Julian durations (365.25 days/year).
 - Values are truncated, not rounded.
+
+## License
+
+Licensed under either of [Apache License, Version 2.0](LICENSE-Apache-2.0) or [MIT license](LICENSE-MIT) at your option.
