@@ -6,7 +6,7 @@
 /// Configuration types for duration formatting.
 pub mod duration;
 
-use duration::Duration;
+use duration::{Duration, Format};
 
 #[cfg(doctest)]
 #[doc = include_str!("../README.md")]
@@ -103,6 +103,6 @@ impl Folktime {
     /// ```
     #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {
-        Duration::new(d)
+        Format::new().duration(d)
     }
 }

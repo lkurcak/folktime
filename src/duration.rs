@@ -104,11 +104,98 @@ pub enum Style {
     TwoUnitsWhole,
 }
 
+/// Reusable configuration for duration formatting.
+///
+/// Use [`Format::duration`] to apply the same formatting options to multiple
+/// [`core::time::Duration`] values.
+///
+/// # Example
+/// ```
+/// use core::time::Duration;
+/// use folktime::duration::{Format, Style, Unit};
+///
+/// const FORMAT: Format = Format::new()
+///     .with_style(Style::TwoUnitsWhole)
+///     .with_min_unit(Unit::Microsecond)
+///     .with_greek_mu();
+///
+/// let a = FORMAT.duration(Duration::from_nanos(12_034));
+/// let b = FORMAT.duration(Duration::from_micros(1_012));
+///
+/// assert_eq!(format!("{a}"), "12μs 34ns");
+/// assert_eq!(format!("{b}"), "1ms 12μs");
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Format {
+    style: Style,
+    min_unit: Unit,
+    greek_mu: bool,
+}
+
+impl Default for Format {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl Format {
+    /// Create a reusable duration format with default options.
+    ///
+    /// Defaults to [`Style::OneUnitFrac`], [`Unit::Nanosecond`], and ASCII
+    /// microseconds (`us`).
+    #[must_use]
+    pub const fn new() -> Self {
+        Self {
+            style: Style::OneUnitFrac,
+            min_unit: Unit::Nanosecond,
+            greek_mu: false,
+        }
+    }
+
+    /// Create a formatter wrapper around `d` using this format.
+    #[must_use]
+    pub const fn duration(self, d: core::time::Duration) -> Duration {
+        Duration {
+            duration: d,
+            style: self.style,
+            min_unit: self.min_unit,
+            greek_mu: self.greek_mu,
+        }
+    }
+
+    /// Set how durations are rendered.
+    ///
+    /// The default is [`Style::OneUnitFrac`].
+    #[must_use]
+    pub const fn with_style(self, style: Style) -> Self {
+        Self { style, ..self }
+    }
+
+    /// Set the minimum primary unit used to display durations.
+    #[must_use]
+    pub const fn with_min_unit(self, unit: Unit) -> Self {
+        Self {
+            min_unit: unit,
+            ..self
+        }
+    }
+
+    /// Render microseconds with Greek small letter mu (`μs`) instead of ASCII
+    /// `us`.
+    #[must_use]
+    pub const fn with_greek_mu(self) -> Self {
+        Self {
+            greek_mu: true,
+            ..self
+        }
+    }
+}
+
 /// A configured formatter for a [`core::time::Duration`].
 ///
-/// Create it with [`crate::Folktime::duration`], customize it with
-/// [`Duration::with_style`] or [`Duration::with_min_unit`], and render it via
-/// [`core::fmt::Display`].
+/// Create it with [`crate::Folktime::duration`] or [`Format::duration`],
+/// customize it with [`Duration::with_style`] or [`Duration::with_min_unit`],
+/// and render it via [`core::fmt::Display`].
 #[allow(clippy::struct_field_names)]
 #[derive(Debug, Clone, Copy)]
 pub struct Duration {
@@ -119,16 +206,6 @@ pub struct Duration {
 }
 
 impl Duration {
-    #[must_use]
-    pub(crate) const fn new(d: core::time::Duration) -> Self {
-        Self {
-            duration: d,
-            style: Style::OneUnitFrac,
-            min_unit: Unit::Nanosecond,
-            greek_mu: false,
-        }
-    }
-
     /// Set how the duration is rendered.
     ///
     /// The default is [`Style::OneUnitFrac`].
