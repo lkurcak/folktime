@@ -263,19 +263,14 @@ impl Duration {
     /// use folktime::Folktime;
     /// use folktime::duration::{Style, Unit};
     ///
-    /// let d = Folktime::duration(Duration::from_millis(500))
-    ///     .with_min_unit(Unit::Second);
+    /// let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
     /// assert_eq!(format!("{d}"), "0.50s");
     ///
-    /// let d = Folktime::duration(Duration::from_millis(500))
-    ///     .with_style(Style::OneUnitWhole)
-    ///     .with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{d}"), "0s");
+    /// let whole = d.with_style(Style::OneUnitWhole);
+    /// assert_eq!(format!("{whole}"), "0s");
     ///
-    /// let d = Folktime::duration(Duration::from_millis(500))
-    ///     .with_style(Style::TwoUnitsWhole)
-    ///     .with_min_unit(Unit::Second);
-    /// assert_eq!(format!("{d}"), "0s 500ms");
+    /// let two = d.with_style(Style::TwoUnitsWhole);
+    /// assert_eq!(format!("{two}"), "0s 500ms");
     /// ```
     #[must_use]
     pub const fn with_min_unit(self, unit: Unit) -> Self {

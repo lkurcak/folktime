@@ -75,8 +75,7 @@ impl Folktime {
     /// ```
     ///
     /// # Minimum unit
-    /// Use [`Duration::with_min_unit`] to prevent the formatter from choosing a
-    /// smaller unit:
+    /// Use [`Duration::with_min_unit`] to set the minimum primary unit:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
