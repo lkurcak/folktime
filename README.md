@@ -109,4 +109,4 @@ assert_eq!(format!("{d}"), "12μs");
 
 - All styles support the full range of `core::time::Duration`.
 - Month and year-based units use Julian durations (365.25 days/year).
-- Values are truncated toward zero, not rounded.
+- Values are truncated, not rounded.

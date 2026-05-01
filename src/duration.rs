@@ -18,8 +18,7 @@ pub(crate) const GIGA_YEAR: u64 = 1_000 * MEGA_YEAR;
 const US: u32 = 1_000;
 const MS: u32 = 1_000 * US;
 
-/// Units used with [`Duration::with_min_unit`] to keep the formatter from
-/// choosing anything smaller as its primary unit.
+/// Units used with [`Duration::with_min_unit`] to set the minimum primary unit.
 ///
 /// # Example
 /// ```
@@ -191,7 +190,7 @@ impl Format {
     }
 }
 
-/// A configured formatter for a [`core::time::Duration`].
+/// A display wrapper for a [`core::time::Duration`].
 ///
 /// Create it with [`crate::Folktime::duration`] or [`Format::duration`],
 /// customize it with [`Duration::with_style`] or [`Duration::with_min_unit`],
