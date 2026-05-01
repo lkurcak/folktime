@@ -19,6 +19,11 @@ fn default_format_matches_folktime_duration() {
 }
 
 #[test]
+fn default_trait_matches_new() {
+    assert_eq!(Format::default(), Format::new());
+}
+
+#[test]
 fn format_reuses_options() {
     let a = FORMAT.duration(Duration::from_nanos(12_034));
     let b = FORMAT.duration(Duration::from_millis(1));

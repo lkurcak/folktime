@@ -36,6 +36,9 @@ impl Folktime {
     /// assert_eq!(format!("{d}"), "5.00s");
     /// ```
     ///
+    /// Use [`duration::Format`] when the same non-default options are applied
+    /// to multiple durations.
+    ///
     /// # Precision
     ///
     /// Formatting is intentionally approximate, keeps only the most significant

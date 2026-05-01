@@ -69,6 +69,25 @@ assert_eq!(format!("{b}"), "0.50s");
 assert_eq!(format!("{c}"), "0s 500ms");
 ```
 
+## Reusing Options
+
+Use [`Format`](https://docs.rs/folktime/latest/folktime/duration/struct.Format.html) when the same options apply to multiple durations:
+
+```rust
+use core::time::Duration;
+use folktime::duration::{Format, Style, Unit};
+
+const FORMAT: Format = Format::new()
+    .with_style(Style::TwoUnitsWhole)
+    .with_min_unit(Unit::Second);
+
+let a = FORMAT.duration(Duration::from_millis(500));
+let b = FORMAT.duration(Duration::from_secs(123));
+
+assert_eq!(format!("{a}"), "0s 500ms");
+assert_eq!(format!("{b}"), "2m 3s");
+```
+
 ## Greek Mu Microseconds
 
 Use [`Duration::with_greek_mu`](https://docs.rs/folktime/latest/folktime/duration/struct.Duration.html#method.with_greek_mu)
