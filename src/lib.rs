@@ -6,7 +6,7 @@
 /// Configuration types for duration formatting.
 pub mod duration;
 
-use duration::Duration;
+use duration::{Duration, Format};
 
 #[cfg(doctest)]
 #[doc = include_str!("../README.md")]
@@ -36,9 +36,13 @@ impl Folktime {
     /// assert_eq!(format!("{d}"), "5.00s");
     /// ```
     ///
+    /// Use [`duration::Format`] when the same non-default options are applied
+    /// to multiple durations.
+    ///
     /// # Precision
     ///
-    /// Formatting is intentionally approximate and keeps only the most significant digits:
+    /// Formatting is intentionally approximate, keeps only the most significant
+    /// digits, and truncates rather than rounds:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
@@ -71,8 +75,7 @@ impl Folktime {
     /// ```
     ///
     /// # Minimum unit
-    /// Use [`Duration::with_min_unit`] to prevent the formatter from choosing a
-    /// smaller unit:
+    /// Use [`Duration::with_min_unit`] to set the minimum primary unit:
     /// ```
     /// # use core::time::Duration;
     /// # use folktime::Folktime;
@@ -102,6 +105,6 @@ impl Folktime {
     /// ```
     #[must_use]
     pub const fn duration(d: core::time::Duration) -> Duration {
-        Duration::new(d)
+        Format::new().duration(d)
     }
 }
