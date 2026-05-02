@@ -1,7 +1,7 @@
-mod one_unit_frac;
-mod one_unit_mini;
-mod one_unit_whole;
-mod two_units_whole;
+mod compact;
+mod detailed;
+mod mini;
+mod whole;
 
 use core::fmt::Display;
 
@@ -323,10 +323,10 @@ impl Duration {
 impl Display for Duration {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         match self.style {
-            Style::Mini => self.fmt_one_unit_mini(f),
-            Style::Compact => self.fmt_one_unit_frac(f),
-            Style::Whole => self.fmt_one_unit_whole(f),
-            Style::Detailed => self.fmt_two_units_whole(f),
+            Style::Mini => self.fmt_mini(f),
+            Style::Compact => self.fmt_compact(f),
+            Style::Whole => self.fmt_whole(f),
+            Style::Detailed => self.fmt_detailed(f),
         }
     }
 }

@@ -34,7 +34,7 @@ fn fmt_10(val: u64, div: u64, unit: &str, f: &mut core::fmt::Formatter) -> core:
 }
 
 impl Duration {
-    pub(crate) fn fmt_one_unit_mini(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+    pub(crate) fn fmt_mini(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         let secs = self.duration.as_secs();
         let ns = self.duration.subsec_nanos();
         let min = self.min_unit;

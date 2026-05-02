@@ -98,7 +98,7 @@ fn mini_does_not_allocate() {
 }
 
 #[test]
-fn one_unit_frac_does_not_allocate() {
+fn compact_does_not_allocate() {
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::ZERO)).unwrap());
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(1))).unwrap());
     assert_no_alloc(|buf| {
@@ -148,7 +148,7 @@ fn one_unit_frac_does_not_allocate() {
 }
 
 #[test]
-fn one_unit_whole_does_not_allocate() {
+fn whole_does_not_allocate() {
     assert_no_alloc(|buf| {
         write!(
             buf,
@@ -192,7 +192,7 @@ fn one_unit_whole_does_not_allocate() {
 }
 
 #[test]
-fn two_units_whole_does_not_allocate() {
+fn detailed_does_not_allocate() {
     assert_no_alloc(|buf| {
         write!(
             buf,

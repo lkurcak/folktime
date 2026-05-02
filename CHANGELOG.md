@@ -15,8 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Renamed style variants to intent-based names: `Compact`, `Whole`, and
   `Detailed`.
-- Deprecated the old style names as hidden aliases for migration.
-- Marked `Style` as `#[non_exhaustive]` for future style additions.
 
 ## [0.4.0] - 2026-05-01
 

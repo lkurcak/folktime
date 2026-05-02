@@ -3,7 +3,7 @@ use super::{
 };
 
 impl Duration {
-    pub(crate) fn fmt_one_unit_whole(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+    pub(crate) fn fmt_detailed(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         let secs = self.duration.as_secs();
         let ns = self.duration.subsec_nanos();
         let min = self.min_unit;
@@ -12,46 +12,58 @@ impl Duration {
         if secs < 1 && min <= Unit::Millisecond {
             if ns < US && min <= Unit::Nanosecond {
                 if ns == 0 {
-                    write!(f, "0s")
+                    write!(f, "0s 0ms")
                 } else {
                     write!(f, "{ns}ns")
                 }
             } else if ns < MS && min <= Unit::Microsecond {
                 let us = ns / US;
-                write!(f, "{us}{us_label}")
+                let ns = ns % US;
+                write!(f, "{us}{us_label} {ns}ns")
             } else {
                 let ms = ns / MS;
-                write!(f, "{ms}ms")
+                let us = (ns % MS) / US;
+                write!(f, "{ms}ms {us}{us_label}")
             }
         } else if secs < MINUTE && min <= Unit::Second {
-            write!(f, "{secs}s")
+            let ms = ns / 1_000_000;
+            write!(f, "{secs}s {ms}ms")
         } else if secs < HOUR && min <= Unit::Minute {
             let mins = secs / MINUTE;
-            write!(f, "{mins}m")
+            let secs = secs % MINUTE;
+            write!(f, "{mins}m {secs}s")
         } else if secs < DAY && min <= Unit::Hour {
             let hours = secs / HOUR;
-            write!(f, "{hours}h")
+            let mins = (secs % HOUR) / MINUTE;
+            write!(f, "{hours}h {mins}m")
         } else if secs < WEEK && min <= Unit::Day {
             let days = secs / DAY;
-            write!(f, "{days}d")
+            let hours = (secs % DAY) / HOUR;
+            write!(f, "{days}d {hours}h")
         } else if secs < MONTH && min <= Unit::Week {
             let weeks = secs / WEEK;
-            write!(f, "{weeks}w")
+            let days = (secs % WEEK) / DAY;
+            write!(f, "{weeks}w {days}d")
         } else if secs < YEAR && min <= Unit::Month {
             let months = secs / MONTH;
-            write!(f, "{months}mo")
+            let days = (secs % MONTH) / DAY;
+            write!(f, "{months}mo {days}d")
         } else if secs < KILO_YEAR && min <= Unit::Year {
             let years = secs / YEAR;
-            write!(f, "{years}y")
+            let months = (secs % YEAR) / MONTH;
+            write!(f, "{years}y {months}mo")
         } else if secs < MEGA_YEAR && min <= Unit::KiloYear {
             let kilo_years = secs / KILO_YEAR;
-            write!(f, "{kilo_years}ky")
+            let years = (secs % KILO_YEAR) / YEAR;
+            write!(f, "{kilo_years}ky {years}y")
         } else if secs < GIGA_YEAR && min <= Unit::MegaYear {
             let mega_years = secs / MEGA_YEAR;
-            write!(f, "{mega_years}My")
+            let kilo_years = (secs % MEGA_YEAR) / KILO_YEAR;
+            write!(f, "{mega_years}My {kilo_years}ky")
         } else {
             let giga_years = secs / GIGA_YEAR;
-            write!(f, "{giga_years}Gy")
+            let mega_years = (secs % GIGA_YEAR) / MEGA_YEAR;
+            write!(f, "{giga_years}Gy {mega_years}My")
         }
     }
 }
