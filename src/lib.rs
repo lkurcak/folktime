@@ -65,13 +65,15 @@ impl Folktime {
     /// # use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
-    /// let a = Folktime::duration(Duration::new(0, 12_056_999));
-    /// let b = a.with_style(Style::OneUnitWhole);
-    /// let c = a.with_style(Style::TwoUnitsWhole);
+    /// let a = Folktime::duration(Duration::new(1, 123_456_789));
+    /// let b = a.with_style(Style::Mini);
+    /// let c = a.with_style(Style::Whole);
+    /// let d = a.with_style(Style::Detailed);
     ///
-    /// assert_eq!(format!("{a}"), "12.0ms");
-    /// assert_eq!(format!("{b}"), "12ms");
-    /// assert_eq!(format!("{c}"), "12ms 56us");
+    /// assert_eq!(format!("{a}"), "1.12s");
+    /// assert_eq!(format!("{b}"), "1.1s");
+    /// assert_eq!(format!("{c}"), "1s");
+    /// assert_eq!(format!("{d}"), "1s 123ms");
     /// ```
     ///
     /// # Minimum unit
@@ -97,7 +99,7 @@ impl Folktime {
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_micros(12))
-    ///     .with_style(Style::OneUnitWhole)
+    ///     .with_style(Style::Whole)
     ///     .with_greek_mu();
     ///
     /// assert_eq!(format!("{d}"), "12μs");
