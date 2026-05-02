@@ -19,37 +19,40 @@ assert_eq!(format!("{d}"), "2.05m");
 
 ## Styles
 
-Choose between three formatting styles:
+Choose between four formatting styles:
 
-- [`Style::OneUnitFrac`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.OneUnitFrac) (default): one unit with a fractional part
-- [`Style::OneUnitWhole`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.OneUnitWhole): one whole-number unit
-- [`Style::TwoUnitsWhole`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.TwoUnitsWhole): two whole-number units
+- [`Style::Mini`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.Mini): shortest fractional one-unit format
+- [`Style::Compact`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.Compact) (default): compact one-unit format
+- [`Style::Whole`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.Whole): one whole-number unit
+- [`Style::Detailed`](https://docs.rs/folktime/latest/folktime/duration/enum.Style.html#variant.Detailed): two whole-number units
 
 ```rust
 use core::time::Duration;
 use folktime::Folktime;
 use folktime::duration::Style;
 
-let a = Folktime::duration(Duration::new(0, 12_056_999));
-let b = a.with_style(Style::OneUnitWhole);
-let c = a.with_style(Style::TwoUnitsWhole);
+let a = Folktime::duration(Duration::new(1, 123_456_789));
+let b = a.with_style(Style::Mini);
+let c = a.with_style(Style::Whole);
+let d = a.with_style(Style::Detailed);
 
-assert_eq!(format!("{a}"), "12.0ms");
-assert_eq!(format!("{b}"), "12ms");
-assert_eq!(format!("{c}"), "12ms 56us");
+assert_eq!(format!("{a}"), "1.12s");
+assert_eq!(format!("{b}"), "1.1s");
+assert_eq!(format!("{c}"), "1s");
+assert_eq!(format!("{d}"), "1s 123ms");
 ```
 
 Here's a comparison of styles:
 
-| Duration     | `OneUnitFrac` | `OneUnitWhole` | `TwoUnitsWhole` |
-|-------------:|--------------:|---------------:|----------------:|
-| `0s`         | `0.00s`       | `0s`           | `0s 0ms`        |
-| `0.123456s`  | `123ms`       | `123ms`        | `123ms 456us`   |
-| `1.123456s`  | `1.12s`       | `1s`           | `1s 123ms`      |
-| `123s`       | `2.05m`       | `2m`           | `2m 3s`         |
-| `3660s`      | `1.01h`       | `1h`           | `1h 1m`         |
-| `777600s`    | `1.28w`       | `1w`           | `1w 2d`         |
-| `12345689s`  | `4.69mo`      | `4mo`          | `4mo 21d`       |
+| Duration     | `Mini`   | `Compact` | `Whole` | `Detailed`     |
+|-------------:|---------:|----------:|--------:|---------------:|
+| `0s`         | `0.0s`   | `0.00s`   | `0s`    | `0s 0ms`       |
+| `0.123456s`  | `123ms`  | `123ms`   | `123ms` | `123ms 456us`  |
+| `1.123456s`  | `1.1s`   | `1.12s`   | `1s`    | `1s 123ms`     |
+| `123s`       | `2.0m`   | `2.05m`   | `2m`    | `2m 3s`        |
+| `3660s`      | `1.0h`   | `1.01h`   | `1h`    | `1h 1m`        |
+| `777600s`    | `1.2w`   | `1.28w`   | `1w`    | `1w 2d`        |
+| `12345689s`  | `4.6mo`  | `4.69mo`  | `4mo`   | `4mo 21d`      |
 
 ## Minimum Unit
 
@@ -62,7 +65,7 @@ use folktime::duration::{Style, Unit};
 
 let a = Folktime::duration(Duration::from_millis(500));
 let b = a.with_min_unit(Unit::Second);
-let c = b.with_style(Style::TwoUnitsWhole);
+let c = b.with_style(Style::Detailed);
 
 assert_eq!(format!("{a}"), "500ms");
 assert_eq!(format!("{b}"), "0.50s");
@@ -78,7 +81,7 @@ use core::time::Duration;
 use folktime::duration::{Format, Style, Unit};
 
 const FORMAT: Format = Format::new()
-    .with_style(Style::TwoUnitsWhole)
+    .with_style(Style::Detailed)
     .with_min_unit(Unit::Second);
 
 let a = FORMAT.duration(Duration::from_millis(500));
@@ -99,7 +102,7 @@ use folktime::Folktime;
 use folktime::duration::Style;
 
 let d = Folktime::duration(Duration::from_micros(12))
-    .with_style(Style::OneUnitWhole)
+    .with_style(Style::Whole)
     .with_greek_mu();
 
 assert_eq!(format!("{d}"), "12μs");

@@ -70,7 +70,35 @@ fn assert_no_alloc(f: impl FnOnce(&mut StackBuf)) {
 // -- Tests --
 
 #[test]
-fn one_unit_frac_does_not_allocate() {
+fn mini_does_not_allocate() {
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::ZERO).with_style(Style::Mini)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_micros(1)).with_style(Style::Mini)
+        )
+        .unwrap()
+    });
+    assert_no_alloc(|buf| {
+        write!(
+            buf,
+            "{}",
+            Folktime::duration(Duration::from_secs(123)).with_style(Style::Mini)
+        )
+        .unwrap()
+    });
+}
+
+#[test]
+fn compact_does_not_allocate() {
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::ZERO)).unwrap());
     assert_no_alloc(|buf| write!(buf, "{}", Folktime::duration(Duration::from_nanos(1))).unwrap());
     assert_no_alloc(|buf| {
@@ -120,12 +148,12 @@ fn one_unit_frac_does_not_allocate() {
 }
 
 #[test]
-fn one_unit_whole_does_not_allocate() {
+fn whole_does_not_allocate() {
     assert_no_alloc(|buf| {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::ZERO).with_style(Style::OneUnitWhole)
+            Folktime::duration(Duration::ZERO).with_style(Style::Whole)
         )
         .unwrap()
     });
@@ -133,7 +161,7 @@ fn one_unit_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_nanos(42)).with_style(Style::OneUnitWhole)
+            Folktime::duration(Duration::from_nanos(42)).with_style(Style::Whole)
         )
         .unwrap()
     });
@@ -141,7 +169,7 @@ fn one_unit_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_millis(500)).with_style(Style::OneUnitWhole)
+            Folktime::duration(Duration::from_millis(500)).with_style(Style::Whole)
         )
         .unwrap()
     });
@@ -149,7 +177,7 @@ fn one_unit_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_secs(59)).with_style(Style::OneUnitWhole)
+            Folktime::duration(Duration::from_secs(59)).with_style(Style::Whole)
         )
         .unwrap()
     });
@@ -157,19 +185,19 @@ fn one_unit_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_secs(7_200)).with_style(Style::OneUnitWhole)
+            Folktime::duration(Duration::from_secs(7_200)).with_style(Style::Whole)
         )
         .unwrap()
     });
 }
 
 #[test]
-fn two_units_whole_does_not_allocate() {
+fn detailed_does_not_allocate() {
     assert_no_alloc(|buf| {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::ZERO).with_style(Style::TwoUnitsWhole)
+            Folktime::duration(Duration::ZERO).with_style(Style::Detailed)
         )
         .unwrap()
     });
@@ -177,7 +205,7 @@ fn two_units_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_nanos(42)).with_style(Style::TwoUnitsWhole)
+            Folktime::duration(Duration::from_nanos(42)).with_style(Style::Detailed)
         )
         .unwrap()
     });
@@ -185,7 +213,7 @@ fn two_units_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_millis(500)).with_style(Style::TwoUnitsWhole)
+            Folktime::duration(Duration::from_millis(500)).with_style(Style::Detailed)
         )
         .unwrap()
     });
@@ -193,7 +221,7 @@ fn two_units_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole)
+            Folktime::duration(Duration::from_secs(123)).with_style(Style::Detailed)
         )
         .unwrap()
     });
@@ -201,7 +229,7 @@ fn two_units_whole_does_not_allocate() {
         write!(
             buf,
             "{}",
-            Folktime::duration(Duration::from_secs(90_061)).with_style(Style::TwoUnitsWhole)
+            Folktime::duration(Duration::from_secs(90_061)).with_style(Style::Detailed)
         )
         .unwrap()
     });

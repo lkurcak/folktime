@@ -4,7 +4,7 @@ use folktime::Folktime;
 use folktime::duration::{Format, Style, Unit};
 
 const FORMAT: Format = Format::new()
-    .with_style(Style::TwoUnitsWhole)
+    .with_style(Style::Detailed)
     .with_min_unit(Unit::Microsecond)
     .with_greek_mu();
 

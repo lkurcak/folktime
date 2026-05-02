@@ -1,6 +1,7 @@
-mod one_unit_frac;
-mod one_unit_whole;
-mod two_units_whole;
+mod compact;
+mod detailed;
+mod mini;
+mod whole;
 
 use core::fmt::Display;
 
@@ -64,8 +65,11 @@ pub enum Unit {
 
 /// How a [`Duration`] is rendered.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum Style {
-    /// Format in a single unit with a fractional part.
+    /// Format in one unit using the shortest fractional representation.
+    ///
+    /// Values below `10` use one decimal digit. Larger values use whole units.
     ///
     /// # Example
     /// ```
@@ -73,11 +77,23 @@ pub enum Style {
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
-    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitFrac);
+    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::Mini);
+    /// assert_eq!(format!("{d}"), "2.0m");
+    /// ```
+    Mini,
+    /// Format in one unit with a compact fractional part.
+    ///
+    /// # Example
+    /// ```
+    /// use core::time::Duration;
+    /// use folktime::Folktime;
+    /// use folktime::duration::Style;
+    ///
+    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::Compact);
     /// assert_eq!(format!("{d}"), "2.05m");
     /// ```
-    OneUnitFrac,
-    /// Format in a single unit as a whole number.
+    Compact,
+    /// Format in one unit as a whole number.
     ///
     /// # Example
     /// ```
@@ -85,10 +101,10 @@ pub enum Style {
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
-    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::OneUnitWhole);
+    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::Whole);
     /// assert_eq!(format!("{d}"), "2m");
     /// ```
-    OneUnitWhole,
+    Whole,
     /// Format in two whole-number units.
     ///
     /// # Example
@@ -97,10 +113,30 @@ pub enum Style {
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
-    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
+    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::Detailed);
     /// assert_eq!(format!("{d}"), "2m 3s");
     /// ```
-    TwoUnitsWhole,
+    Detailed,
+}
+
+impl Style {
+    /// Deprecated alias for [`Style::Compact`].
+    #[allow(non_upper_case_globals)]
+    #[deprecated(since = "0.5.0", note = "use Style::Compact instead")]
+    #[doc(hidden)]
+    pub const OneUnitFrac: Self = Self::Compact;
+
+    /// Deprecated alias for [`Style::Whole`].
+    #[allow(non_upper_case_globals)]
+    #[deprecated(since = "0.5.0", note = "use Style::Whole instead")]
+    #[doc(hidden)]
+    pub const OneUnitWhole: Self = Self::Whole;
+
+    /// Deprecated alias for [`Style::Detailed`].
+    #[allow(non_upper_case_globals)]
+    #[deprecated(since = "0.5.0", note = "use Style::Detailed instead")]
+    #[doc(hidden)]
+    pub const TwoUnitsWhole: Self = Self::Detailed;
 }
 
 /// Reusable configuration for duration formatting.
@@ -114,7 +150,7 @@ pub enum Style {
 /// use folktime::duration::{Format, Style, Unit};
 ///
 /// const FORMAT: Format = Format::new()
-///     .with_style(Style::TwoUnitsWhole)
+///     .with_style(Style::Detailed)
 ///     .with_min_unit(Unit::Microsecond)
 ///     .with_greek_mu();
 ///
@@ -140,12 +176,12 @@ impl Default for Format {
 impl Format {
     /// Create a reusable duration format with default options.
     ///
-    /// Defaults to [`Style::OneUnitFrac`], [`Unit::Nanosecond`], and ASCII
+    /// Defaults to [`Style::Compact`], [`Unit::Nanosecond`], and ASCII
     /// microseconds (`us`).
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            style: Style::OneUnitFrac,
+            style: Style::Compact,
             min_unit: Unit::Nanosecond,
             greek_mu: false,
         }
@@ -164,7 +200,7 @@ impl Format {
 
     /// Set how durations are rendered.
     ///
-    /// The default is [`Style::OneUnitFrac`].
+    /// The default is [`Style::Compact`].
     #[must_use]
     pub const fn with_style(self, style: Style) -> Self {
         Self { style, ..self }
@@ -207,7 +243,7 @@ pub struct Duration {
 impl Duration {
     /// Set how the duration is rendered.
     ///
-    /// The default is [`Style::OneUnitFrac`].
+    /// The default is [`Style::Compact`].
     ///
     /// # Example
     /// ```
@@ -215,7 +251,7 @@ impl Duration {
     /// use folktime::Folktime;
     /// use folktime::duration::Style;
     ///
-    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::TwoUnitsWhole);
+    /// let d = Folktime::duration(Duration::from_secs(123)).with_style(Style::Detailed);
     /// assert_eq!(format!("{d}"), "2m 3s");
     /// ```
     #[must_use]
@@ -238,7 +274,7 @@ impl Duration {
     /// use folktime::duration::Style;
     ///
     /// let d = Folktime::duration(Duration::from_micros(12))
-    ///     .with_style(Style::OneUnitWhole)
+    ///     .with_style(Style::Whole)
     ///     .with_greek_mu();
     /// assert_eq!(format!("{d}"), "12μs");
     /// ```
@@ -265,10 +301,10 @@ impl Duration {
     /// let d = Folktime::duration(Duration::from_millis(500)).with_min_unit(Unit::Second);
     /// assert_eq!(format!("{d}"), "0.50s");
     ///
-    /// let whole = d.with_style(Style::OneUnitWhole);
+    /// let whole = d.with_style(Style::Whole);
     /// assert_eq!(format!("{whole}"), "0s");
     ///
-    /// let two = d.with_style(Style::TwoUnitsWhole);
+    /// let two = d.with_style(Style::Detailed);
     /// assert_eq!(format!("{two}"), "0s 500ms");
     /// ```
     #[must_use]
@@ -287,9 +323,10 @@ impl Duration {
 impl Display for Duration {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         match self.style {
-            Style::OneUnitFrac => self.fmt_one_unit_frac(f),
-            Style::OneUnitWhole => self.fmt_one_unit_whole(f),
-            Style::TwoUnitsWhole => self.fmt_two_units_whole(f),
+            Style::Mini => self.fmt_mini(f),
+            Style::Compact => self.fmt_compact(f),
+            Style::Whole => self.fmt_whole(f),
+            Style::Detailed => self.fmt_detailed(f),
         }
     }
 }

@@ -5,7 +5,7 @@ use core::time::Duration;
 use folktime::Folktime;
 use folktime::duration::Style;
 
-const STYLE: Style = Style::TwoUnitsWhole;
+const STYLE: Style = Style::Detailed;
 
 #[test]
 fn zero() {
