@@ -11,3 +11,6 @@ categories = ["date-and-time", "value-formatting", "no-std", "no-std::no-alloc"]
 
 [lib]
 path = "src/lib.rs"
+
+[lints.clippy]
+mod_module_files = "warn"
